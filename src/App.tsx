@@ -18,7 +18,7 @@ export default function App() {
     deleteHistoryItem
   } = useJSONEditor();
 
-  const [showHistory, setShowHistory] = useState(true);
+  const [showHistory, setShowHistory] = useState(window.innerWidth >= 1024);
   const editorRef = useRef<any>(null);
 
   const handleCopy = useCallback(() => {

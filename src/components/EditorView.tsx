@@ -63,22 +63,22 @@ export const EditorView: React.FC<EditorViewProps> = ({
         }}
       />
 
-      <div className="absolute bottom-4 right-4 z-20 pointer-events-none">
+      <div className="absolute bottom-4 right-4 left-4 sm:left-auto z-20 pointer-events-none">
         <AnimatePresence>
           {!editorState.isValid && (
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className="bg-red-600 text-white p-4 font-mono text-[11px] shadow-2xl max-w-sm border border-red-400 pointer-events-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="bg-red-600 text-white p-3 sm:p-4 font-mono text-[10px] sm:text-[11px] shadow-2xl max-w-full sm:max-w-sm border border-red-400 pointer-events-auto"
             >
-              <div className="flex items-center gap-2 mb-2 font-bold uppercase tracking-widest text-[9px]">
+              <div className="flex items-center gap-2 mb-1 sm:mb-2 font-bold uppercase tracking-widest text-[9px]">
                 <AlertCircle size={14} />
                 <span>Parsing Error</span>
               </div>
-              <p>{editorState.errorMessage}</p>
+              <p className="line-clamp-3 sm:line-clamp-none">{editorState.errorMessage}</p>
               {editorState.line && (
-                <div className="mt-2 pt-2 border-t border-red-400 flex justify-between uppercase opacity-80 text-[10px]">
+                <div className="mt-1 sm:mt-2 pt-1 sm:pt-2 border-t border-red-400 flex justify-between uppercase opacity-80 text-[10px]">
                   <span>Line: {editorState.line}</span>
                   <span>Col: {editorState.column}</span>
                 </div>
@@ -90,10 +90,10 @@ export const EditorView: React.FC<EditorViewProps> = ({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-brand-ink text-brand-bg px-4 py-2 font-mono text-[10px] uppercase tracking-widest flex items-center gap-2 border border-brand-line pointer-events-auto"
+              className="bg-brand-ink text-brand-bg px-3 py-1.5 sm:px-4 sm:py-2 font-mono text-[9px] sm:text-[10px] uppercase tracking-widest flex items-center gap-2 border border-brand-line ml-auto w-fit pointer-events-auto"
             >
               <Check size={12} className="text-green-400" />
-              Valid JSON · {value.length} B
+              <span className="hidden xs:inline">Valid JSON ·</span> {value.length} B
             </motion.div>
           )}
         </AnimatePresence>

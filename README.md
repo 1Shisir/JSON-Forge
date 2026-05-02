@@ -40,7 +40,7 @@ A high-performance, developer-friendly JSON formatter and validator built with a
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/1Shisir/json-forge.git
+   git clone https://github.com/your-username/json-forge.git
    cd json-forge
    ```
 

@@ -21,61 +21,77 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <AnimatePresence initial={false}>
       {isVisible && (
-        <motion.div 
-          initial={{ width: 0, opacity: 0 }}
-          animate={{ width: 320, opacity: 1 }}
-          exit={{ width: 0, opacity: 0 }}
-          className="h-full border-r border-brand-line flex flex-col bg-white overflow-hidden shrink-0"
-        >
-          <div className="p-4 border-b border-brand-line flex items-center justify-between">
-            <div className="flex items-center gap-2 font-medium italic lowercase font-serif text-sm opacity-60">
-              <Clock size={14} />
-              <span>Session History</span>
-            </div>
-            <button 
-              onClick={onToggle}
-              className="p-1 hover:bg-brand-ink hover:text-brand-bg transition-colors"
-              title="Hide History"
-            >
-              <PanelLeft size={16} />
-            </button>
-          </div>
+        <>
+          {/* Mobile Overlay Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onToggle}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
+          />
           
-          <div className="flex-1 overflow-y-auto">
-            {history.length === 0 ? (
-              <div className="p-8 text-center opacity-40">
-                <History size={32} className="mx-auto mb-2 opacity-20" />
-                <p className="text-xs uppercase tracking-widest font-mono">No Items Saved</p>
+          <motion.div 
+            initial={{ x: -320, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -320, opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed lg:relative z-50 h-full w-[280px] sm:w-[320px] border-r border-brand-line flex flex-col bg-white overflow-hidden shrink-0 shadow-2xl lg:shadow-none"
+          >
+            <div className="p-4 border-b border-brand-line flex items-center justify-between">
+              <div className="flex items-center gap-2 font-medium italic lowercase font-serif text-sm opacity-60">
+                <Clock size={14} />
+                <span>Session History</span>
               </div>
-            ) : (
-              <div className="divide-y divide-brand-line">
-                {history.map((item) => (
-                  <div 
-                    key={item.id}
-                    onClick={() => onSelect(item)}
-                    className="group p-4 hover:bg-brand-ink hover:text-brand-bg transition-all cursor-pointer relative"
-                  >
-                    <div className="flex justify-between items-start mb-1">
-                      <span className="text-xs font-mono truncate max-w-[200px]">{item.name}</span>
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onDelete(item.id);
-                        }}
-                        className="opacity-0 group-hover:opacity-100 p-1 hover:text-red-400 transition-opacity"
-                      >
-                        <Trash2 size={12} />
-                      </button>
+              <button 
+                onClick={onToggle}
+                className="p-1 hover:bg-brand-ink hover:text-brand-bg transition-colors"
+                title="Hide History"
+              >
+                <PanelLeft size={16} />
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto">
+              {history.length === 0 ? (
+                <div className="p-8 text-center opacity-40">
+                  <History size={32} className="mx-auto mb-2 opacity-20" />
+                  <p className="text-xs uppercase tracking-widest font-mono">No Items Saved</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-brand-line">
+                  {history.map((item) => (
+                    <div 
+                      key={item.id}
+                      onClick={() => {
+                        onSelect(item);
+                        // Optional: close on mobile after selection
+                        if (window.innerWidth < 1024) onToggle();
+                      }}
+                      className="group p-4 hover:bg-brand-ink hover:text-brand-bg transition-all cursor-pointer relative"
+                    >
+                      <div className="flex justify-between items-start mb-1">
+                        <span className="text-xs font-mono truncate max-w-[180px] sm:max-w-[200px]">{item.name}</span>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete(item.id);
+                          }}
+                          className="lg:opacity-0 group-hover:opacity-100 p-1 hover:text-red-400 transition-opacity"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                      <div className="text-[10px] opacity-60 font-mono">
+                        {new Date(item.timestamp).toLocaleTimeString()} · {item.content.length} B
+                      </div>
                     </div>
-                    <div className="text-[10px] opacity-60 font-mono">
-                      {new Date(item.timestamp).toLocaleTimeString()} · {item.content.length} B
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );

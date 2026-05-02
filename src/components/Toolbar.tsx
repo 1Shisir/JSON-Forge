@@ -39,43 +39,44 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   };
 
   return (
-    <header className="h-14 border-b border-brand-line flex items-center justify-between px-4 bg-white z-10 shrink-0">
-      <div className="flex items-center gap-4">
-        {!showSidebar && (
-          <button 
-            onClick={onToggleSidebar}
-            className="p-2 hover:bg-brand-bg border border-brand-line transition-colors"
-          >
-            <PanelLeft size={18} />
-          </button>
-        )}
+    <header className="h-14 border-b border-brand-line flex items-center justify-between px-2 sm:px-4 bg-white z-10 shrink-0">
+      <div className="flex items-center gap-2 sm:gap-4">
+        <button 
+          onClick={onToggleSidebar}
+          className={`${showSidebar ? 'hidden lg:flex' : 'flex'} p-2 hover:bg-brand-bg border border-brand-line transition-colors`}
+        >
+          <PanelLeft size={18} />
+        </button>
         <div className="flex items-center gap-2">
           <div className="bg-brand-ink text-brand-bg p-1.5 rounded-sm">
             <Braces size={18} />
           </div>
-          <h1 className="font-serif italic font-bold text-lg tracking-tight">JSON Forge</h1>
+          <h1 className="font-serif italic font-bold text-sm sm:text-lg tracking-tight truncate max-w-[80px] sm:max-w-none">JSON Forge</h1>
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         <button 
           onClick={onFormat}
-          className="px-4 py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all"
+          className="p-2 sm:px-4 sm:py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all"
+          title="Format JSON"
         >
           <FileJson size={14} />
-          FORMAT
+          <span className="hidden sm:inline">FORMAT</span>
         </button>
         <button 
           onClick={onMinify}
-          className="px-4 py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all"
+          className="p-2 sm:px-4 sm:py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all"
+          title="Minify JSON"
         >
           <Code2 size={14} />
-          MINIFY
+          <span className="hidden sm:inline">MINIFY</span>
         </button>
-        <div className="w-[1px] h-6 bg-brand-line opacity-20 mx-1" />
+        <div className="w-[1px] h-6 bg-brand-line opacity-20 mx-0.5 sm:mx-1" />
         <button 
           onClick={handleCopy}
-          className="px-4 py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all relative min-w-[80px]"
+          className="p-2 sm:px-4 sm:py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all relative min-w-[38px] sm:min-w-[80px]"
+          title="Copy to Clipboard"
         >
           <AnimatePresence mode="wait">
             {showCopyFeedback ? (
@@ -96,17 +97,18 @@ export const Toolbar: React.FC<ToolbarProps> = ({
                 className="flex items-center gap-2"
               >
                 <Copy size={14} />
-                COPY
+                <span className="hidden sm:inline">COPY</span>
               </motion.div>
             )}
           </AnimatePresence>
         </button>
         <button 
           onClick={onDownload}
-          className="px-4 py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all"
+          className="p-2 sm:px-4 sm:py-2 bg-white border border-brand-line flex items-center gap-2 text-xs font-mono hover:bg-brand-ink hover:text-brand-bg transition-all"
+          title="Download JSON"
         >
           <Download size={14} />
-          DOWNLOAD
+          <span className="hidden sm:inline">DOWNLOAD</span>
         </button>
         <button 
           onClick={onClear}
